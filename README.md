@@ -1,5 +1,10 @@
 # VAT
 
+![Build](https://github.com/pcriv/vat/actions/workflows/ci.yml/badge.svg)
+[![Go Report Card](https://goreportcard.com/badge/github.com/pcriv/vat)](https://goreportcard.com/report/github.com/pcriv/vat)
+[![GoDoc](https://godoc.org/github.com/pcriv/vat?status.svg)](https://godoc.org/github.com/pcriv/vat)
+[![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/pcriv/vat/master/LICENSE)
+
 Package for parsing and validating VAT Identification numbers
 
 based on https://github.com/Teamwork/vat with some different design choices
@@ -93,8 +98,8 @@ client := ukvat.NewClient(
 ```
 
 > [!NOTE]  
-> The ukvat.Client structs will cache the auth token needed for the validation requests
-> To avoid getting 403s responses when validating VATs the client will refresh the token 1 minute before it expires
+> The `ukvat.Client` struct will cache the auth token needed for the validation requests
+> To avoid getting `403` responses when validating VATs the client will refresh the token 1 minute before it expires
 
 If you need to hit the sandbox version of the UK VAT API you can use the following option:
 
