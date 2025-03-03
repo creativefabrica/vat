@@ -1,0 +1,13 @@
+.build/
+.DS_Store
+.idea/
+.vscode/
+*.dll
+*.dylib
+*.exe
+*.exe~
+*.out
+*.so
+*.test
+/coverage/
+/vendor/

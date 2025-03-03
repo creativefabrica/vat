@@ -1,0 +1,8 @@
+profile: coverage/cover.out
+local-prefix: "github.com/pcriv/vat"
+threshold:
+  package: 70
+  total: 70
+exclude:
+  paths:
+    - ^vattest/ # exclude package `vattest`
