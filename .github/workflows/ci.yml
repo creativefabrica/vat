@@ -16,6 +16,12 @@ jobs:
 
       - name: Check out code into the Go module directory
         uses: actions/checkout@v4
+      
+      - name: Set UKVAT_API_CLIENT_ID env var
+        run: echo "UKVAT_API_CLIENT_ID=${{ secrets.UKVAT_API_CLIENT_ID }}" >> $GITHUB_ENV
+      
+      - name: Set UKVAT_API_CLIENT_SECRET env var
+        run: echo "UKVAT_API_CLIENT_SECRET=${{ secrets.UKVAT_API_CLIENT_SECRET }}" >> $GITHUB_ENV
 
       - name: Run tests
         run: make test

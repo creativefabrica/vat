@@ -25,8 +25,8 @@ func TestClient_Validate(t *testing.T) {
 		{
 			name: "Valid VAT number",
 			creds: ukvat.ClientCredentials{
-				ID:     os.Getenv("UKVAT_SERVICE_CLIENT_ID"),
-				Secret: os.Getenv("UKVAT_SERVICE_CLIENT_SECRET"),
+				ID:     os.Getenv("UKVAT_API_CLIENT_ID"),
+				Secret: os.Getenv("UKVAT_API_CLIENT_SECRET"),
 			},
 			vatNumber: vat.MustParse("GB146295999727"),
 			wantErr:   nil,

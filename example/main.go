@@ -28,8 +28,8 @@ func main() {
 		)),
 		vat.WithUKVATClient(ukvat.NewClient(
 			ukvat.ClientCredentials{
-				Secret: os.Getenv("UKVAT_SERVICE_CLIENT_SECRET"),
-				ID:     os.Getenv("UKVAT_SERVICE_CLIENT_ID"),
+				Secret: os.Getenv("UKVAT_API_CLIENT_SECRET"),
+				ID:     os.Getenv("UKVAT_API_CLIENT_ID"),
 			},
 			ukvat.WithBaseURL(ukvat.TestServiceBaseURL),
 			ukvat.WithHTTPClient(httpClient),

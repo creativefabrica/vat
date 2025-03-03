@@ -6,3 +6,4 @@ threshold:
 exclude:
   paths:
     - ^vattest/ # exclude package `vattest`
+    - ^example/ # exclude package `example`

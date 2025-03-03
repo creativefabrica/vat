@@ -47,8 +47,8 @@ validator := vat.NewValidator(
     vat.WithViesService(vies.NewClient()),
     vat.WithUKVATService(ukvat.NewClient(
         ukvat.ClientCredentials{
-            Secret: os.Getenv("UKVAT_SERVICE_CLIENT_SECRET"),
-            ID:     os.Getenv("UKVAT_SERVICE_CLIENT_ID"),
+            Secret: os.Getenv("UKVAT_API_CLIENT_SECRET"),
+            ID:     os.Getenv("UKVAT_API_CLIENT_ID"),
         },
     )),
 )
@@ -84,8 +84,8 @@ client := vies.NewClient(
 httpClient := &http.Client{}
 client := ukvat.NewClient(
     ukvat.ClientCredentials{
-        Secret: os.Getenv("UKVAT_SERVICE_CLIENT_SECRET"),
-        ID:     os.Getenv("UKVAT_SERVICE_CLIENT_ID"),
+        Secret: os.Getenv("UKVAT_API_CLIENT_SECRET"),
+        ID:     os.Getenv("UKVAT_API_CLIENT_ID"),
     },
     // Use this option to provide a custom http client
     ukvat.WithHTTPClient(httpClient),
