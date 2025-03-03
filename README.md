@@ -64,8 +64,8 @@ if err != nil {
 }
 ```
 
-If you only need EU validation or UK validation for some reason, you can skip passing the unneeded client.<br>
-If you try to validate a VAT and the respective client is not present either `ErrViesClientNotProvided` or `ErrUKVatClientNotProvided` error will be returned.
+If you only need EU validation and/or UK validation for some reason, you can skip passing the unneeded clients.<br>
+In this case the `Validate` function will only validate format using the `Parse` function.
 
 [Full example](/example/main.go)
 

@@ -31,7 +31,7 @@ func NewValidator(options ...ValidatorOption) *Validator {
 	return v
 }
 
-// Validate checks a VAT number using the appropriate service based on the country code.
+// Validate checks the format of a VAT number, and its existence only if the respective client is present.
 func (v *Validator) Validate(ctx context.Context, vatNumber string) error {
 	id, err := Parse(vatNumber)
 	if err != nil {
@@ -41,13 +41,13 @@ func (v *Validator) Validate(ctx context.Context, vatNumber string) error {
 	switch id.CountryCode {
 	case "GB":
 		if v.ukVATClient == nil {
-			return ErrUKVATClientNotProvided
+			return nil
 		}
 
 		return v.ukVATClient.Validate(ctx, id)
 	default:
 		if v.viesClient == nil {
-			return ErrViesClientNotProvided
+			return nil
 		}
 
 		return v.viesClient.Validate(ctx, id)
