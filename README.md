@@ -32,7 +32,7 @@ if err != nil {
 fmt.Printf("Country Code: %s Number: %s\n", vatIN.CountryCode, vatIN.Number)
 ```
 
-You can also use the `Must` variant if you want to `panic` on error, this is useful on tests:
+You can also use the `Must` variant if you want to `panic` on error; this is useful on tests:
 
 ```go
 vatIN := vat.MustParse("INVALID")
@@ -64,8 +64,8 @@ if err != nil {
 }
 ```
 
-If you only need EU validation or UK validation for some reason, you can skip passing the unneeded client.
-If you try to validate a VAT and the respective client is not present either `ErrViesClientNotProvided` or `ErrUKVatClientNotProvided` error will be returned
+If you only need EU validation or UK validation for some reason, you can skip passing the unneeded client.<br>
+If you try to validate a VAT and the respective client is not present either `ErrViesClientNotProvided` or `ErrUKVatClientNotProvided` error will be returned.
 
 [Full example](/example/main.go)
 
@@ -98,8 +98,8 @@ client := ukvat.NewClient(
 ```
 
 > [!NOTE]  
-> The `ukvat.Client` struct will cache the auth token needed for the validation requests
-> To avoid getting `403` responses when validating VATs the client will refresh the token 1 minute before it expires
+> The `ukvat.Client` struct will cache the auth token needed for the validation requests.
+> To avoid getting `403` responses when validating VAT numbers, the client will refresh the token 1 minute before it expires
 
 If you need to hit the sandbox version of the UK VAT API you can use the following option:
 
