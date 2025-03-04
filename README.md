@@ -1,9 +1,9 @@
 # VAT
 
-![Build](https://github.com/pcriv/vat/actions/workflows/ci.yml/badge.svg)
-[![Go Report Card](https://goreportcard.com/badge/github.com/pcriv/vat)](https://goreportcard.com/report/github.com/pcriv/vat)
-[![GoDoc](https://godoc.org/github.com/pcriv/vat?status.svg)](https://godoc.org/github.com/pcriv/vat)
-[![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/pcriv/vat/master/LICENSE)
+![Build](https://github.com/creativefabrica/vat/actions/workflows/ci.yml/badge.svg)
+[![Go Report Card](https://goreportcard.com/badge/github.com/creativefabrica/vat)](https://goreportcard.com/report/github.com/creativefabrica/vat)
+[![GoDoc](https://godoc.org/github.com/creativefabrica/vat?status.svg)](https://godoc.org/github.com/creativefabrica/vat)
+[![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/creativefabrica/vat/master/LICENSE)
 
 Package for parsing and validating VAT Identification numbers
 
@@ -12,11 +12,11 @@ based on https://github.com/Teamwork/vat with some different design choices
 ## Installing
 
 ```shell
-go get https://github.com/pcriv/vat
+go get https://github.com/creativefabrica/vat
 ```
 
 ```shell
-import "github.com/pcriv/vat"
+import "github.com/creativefabrica/vat"
 ```
 
 ## Usage
@@ -119,8 +119,3 @@ validator := vat.NewValidator(
     vat.WithViesClient(validationClientMock),
 )
 ```
-
-## License
-
-Copyright 2025 [Pablo Crivella](https://pcriv.com).
-Read [LICENSE](LICENSE) for details.
