@@ -1,5 +1,5 @@
 profile: coverage/cover.out
-local-prefix: "github.com/pcriv/vat"
+local-prefix: "github.com/creativefabrica/vat"
 threshold:
   package: 70
   total: 70

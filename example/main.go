@@ -6,9 +6,9 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/pcriv/vat"
-	"github.com/pcriv/vat/ukvat"
-	"github.com/pcriv/vat/vies"
+	"github.com/creativefabrica/vat"
+	"github.com/creativefabrica/vat/ukvat"
+	"github.com/creativefabrica/vat/vies"
 )
 
 func main() {

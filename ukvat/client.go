@@ -11,7 +11,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/pcriv/vat"
+	"github.com/creativefabrica/vat"
 )
 
 // API Documentation:

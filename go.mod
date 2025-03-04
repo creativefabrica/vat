@@ -1,4 +1,4 @@
-module github.com/pcriv/vat
+module github.com/creativefabrica/vat
 
 go 1.24.0
 

@@ -3,8 +3,8 @@ package vat_test
 import (
 	"testing"
 
-	"github.com/pcriv/vat"
-	"github.com/pcriv/vat/vattest"
+	"github.com/creativefabrica/vat"
+	"github.com/creativefabrica/vat/vattest"
 	"github.com/stretchr/testify/assert"
 	"go.uber.org/mock/gomock"
 )

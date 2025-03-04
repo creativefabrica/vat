@@ -4,8 +4,8 @@ import (
 	"os"
 	"testing"
 
-	"github.com/pcriv/vat"
-	"github.com/pcriv/vat/ukvat"
+	"github.com/creativefabrica/vat"
+	"github.com/creativefabrica/vat/ukvat"
 	"github.com/stretchr/testify/assert"
 )
 

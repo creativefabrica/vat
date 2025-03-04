@@ -8,7 +8,7 @@ import (
 	"io"
 	"net/http"
 
-	"github.com/pcriv/vat"
+	"github.com/creativefabrica/vat"
 )
 
 const ServiceBaseURL = "https://ec.europa.eu/taxation_customs/vies/services/checkVatService"

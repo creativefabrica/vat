@@ -3,8 +3,8 @@ package vies_test
 import (
 	"testing"
 
-	"github.com/pcriv/vat"
-	"github.com/pcriv/vat/vies"
+	"github.com/creativefabrica/vat"
+	"github.com/creativefabrica/vat/vies"
 	"github.com/stretchr/testify/assert"
 )
 
