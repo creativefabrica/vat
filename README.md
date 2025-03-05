@@ -99,7 +99,7 @@ client := ukvat.NewClient(
 
 > [!NOTE]  
 > The `ukvat.Client` struct will cache the auth token needed for the validation requests.
-> To avoid getting `403` responses when validating VAT numbers, the client will refresh the token 1 minute before it expires
+> To avoid getting `403` responses when validating VAT numbers, the client will refresh the token 2 minutes before it expires
 
 If you need to hit the sandbox version of the UK VAT API you can use the following option:
 
