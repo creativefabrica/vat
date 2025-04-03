@@ -38,20 +38,28 @@ func NewClient(options ...ClientOption) *Client {
 	return c
 }
 
-// Validate returns whether the given VAT number is valid or not
+// Validate returns whether the given VAT number is valid or not.
 func (c *Client) Validate(ctx context.Context, id vat.IDNumber) error {
 	envelope, err := c.buildEnvelope(id)
 	if err != nil {
 		return errors.Join(vat.ErrServiceUnavailable, err)
 	}
-	req, err := http.NewRequestWithContext(ctx, http.MethodPost, ServiceBaseURL, bytes.NewBufferString(envelope))
+
+	req, err := http.NewRequestWithContext(
+		ctx,
+		http.MethodPost,
+		ServiceBaseURL,
+		bytes.NewBufferString(envelope),
+	)
 	if err != nil {
 		return errors.Join(vat.ErrServiceUnavailable, err)
 	}
+
 	res, err := c.httpClient.Do(req)
 	if err != nil {
 		return errors.Join(vat.ErrServiceUnavailable, err)
 	}
+
 	defer func() {
 		_ = res.Body.Close()
 	}()
@@ -80,12 +88,16 @@ func (c *Client) Validate(ctx context.Context, id vat.IDNumber) error {
 			Soap    struct {
 				XMLName xml.Name `xml:"checkVatResponse"`
 				Valid   bool     `xml:"valid"`
-			}
-		}
+			} `xml:"checkVatResponse"`
+		} `xml:"Body"`
 	}
+
 	err = xml.Unmarshal(xmlRes, &resEnv)
 	if err != nil {
-		return errors.Join(vat.ErrServiceUnavailable, err) // assume if response data doesn't match the struct, the service is down
+		return errors.Join(
+			vat.ErrServiceUnavailable,
+			err,
+		) // assume if response data doesn't match the struct, the service is down
 	}
 
 	valid := resEnv.Soap.Soap.Valid

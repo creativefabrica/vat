@@ -28,6 +28,7 @@ func NewValidator(options ...ValidatorOption) *Validator {
 	for _, option := range options {
 		option(v)
 	}
+
 	return v
 }
 

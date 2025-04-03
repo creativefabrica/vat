@@ -4,9 +4,10 @@ import (
 	"os"
 	"testing"
 
+	"github.com/stretchr/testify/assert"
+
 	"github.com/creativefabrica/vat"
 	"github.com/creativefabrica/vat/ukvat"
-	"github.com/stretchr/testify/assert"
 )
 
 func TestClient_Validate(t *testing.T) {

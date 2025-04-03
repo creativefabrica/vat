@@ -1,0 +1,4 @@
+ls:
+  .go: snake_case
+  .md: SCREAMING_SNAKE_CASE
+  .yml: kebab-case

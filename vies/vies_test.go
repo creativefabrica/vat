@@ -3,9 +3,10 @@ package vies_test
 import (
 	"testing"
 
+	"github.com/stretchr/testify/assert"
+
 	"github.com/creativefabrica/vat"
 	"github.com/creativefabrica/vat/vies"
-	"github.com/stretchr/testify/assert"
 )
 
 func Test_Client_Validate(t *testing.T) {
