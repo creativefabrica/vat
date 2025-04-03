@@ -3,10 +3,11 @@ package vat_test
 import (
 	"testing"
 
-	"github.com/creativefabrica/vat"
-	"github.com/creativefabrica/vat/vattest"
 	"github.com/stretchr/testify/assert"
 	"go.uber.org/mock/gomock"
+
+	"github.com/creativefabrica/vat"
+	"github.com/creativefabrica/vat/vattest"
 )
 
 func TestValidator_Validate(t *testing.T) {

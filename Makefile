@@ -7,18 +7,15 @@ test.coverage:
 
 test.coverage.check: test.coverage
 	go tool go-test-coverage --config=./.testcoverage.yml
-
+	
+test.coverage.treemap: test.coverage
+	go tool go-cover-treemap -coverprofile coverage/cover.out > coverage.svg
+	
 gen:
 	go generate ./...
 
 lint.go:
-	go tool golangci-lint run
-
-modernize:
-	go tool modernize ./...
-
-vulcheck:
-	go tool govulncheck ./...
+	go tool golangci-lint run --fix
 
 run.example:
 	go tool godotenv -f .env.test go run ./example/main.go
@@ -26,4 +23,7 @@ run.example:
 .env.test:
 	touch .env.test
 
-.PRECIOUS: .env.test
+deps.macos:
+	brew bundle install
+
+.PRECIOUS: .env.test 

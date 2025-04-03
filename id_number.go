@@ -6,41 +6,46 @@ import (
 	"strings"
 )
 
-var patterns = map[string]string{
-	"AT": `U[A-Z0-9]{8}`,
-	"BE": `(0[0-9]{9}|[0-9]{10})`,
-	"BG": `[0-9]{9,10}`,
-	"CH": `(?:E(?:-| )[0-9]{3}(?:\.| )[0-9]{3}(?:\.| )[0-9]{3}( MWST)?|E[0-9]{9}(?:MWST)?)`,
-	"CY": `[0-9]{8}[A-Z]`,
-	"CZ": `[0-9]{8,10}`,
-	"DE": `[0-9]{9}`,
-	"DK": `[0-9]{8}`,
-	"EE": `[0-9]{9}`,
-	"EL": `[0-9]{9}`,
-	"ES": `[A-Z][0-9]{7}[A-Z]|[0-9]{8}[A-Z]|[A-Z][0-9]{8}`,
-	"FI": `[0-9]{8}`,
-	"FR": `([A-Z]{2}|[0-9]{2})[0-9]{9}`,
+//nolint:gochecknoglobals // This is a constant map of country codes to their VAT ID number regex patterns.
+var patterns = map[string]*regexp.Regexp{
+	"AT": regexp.MustCompile(`U[A-Z0-9]{8}`),
+	"BE": regexp.MustCompile(`(0[0-9]{9}|[0-9]{10})`),
+	"BG": regexp.MustCompile(`[0-9]{9,10}`),
+	"CH": regexp.MustCompile(
+		`(?:E(?:-| )[0-9]{3}(?:\.| )[0-9]{3}(?:\.| )[0-9]{3}( MWST)?|E[0-9]{9}(?:MWST)?)`,
+	),
+	"CY": regexp.MustCompile(`[0-9]{8}[A-Z]`),
+	"CZ": regexp.MustCompile(`[0-9]{8,10}`),
+	"DE": regexp.MustCompile(`[0-9]{9}`),
+	"DK": regexp.MustCompile(`[0-9]{8}`),
+	"EE": regexp.MustCompile(`[0-9]{9}`),
+	"EL": regexp.MustCompile(`[0-9]{9}`),
+	"ES": regexp.MustCompile(`[A-Z][0-9]{7}[A-Z]|[0-9]{8}[A-Z]|[A-Z][0-9]{8}`),
+	"FI": regexp.MustCompile(`[0-9]{8}`),
+	"FR": regexp.MustCompile(`([A-Z]{2}|[0-9]{2})[0-9]{9}`),
 	// Supposedly the regex for GB numbers is `[0-9]{9}|[0-9]{12}|(GD|HA)[0-9]{3}`,
 	// but our validator service only accepts numbers with 9 or 12 digits following the country code.
 	// Seems like the official site only accepts 9 digits... https://www.gov.uk/check-uk-vat-number
-	"GB": `([0-9]{9}|[0-9]{12})`,
-	"HR": `[0-9]{11}`,
-	"HU": `[0-9]{8}`,
-	"IE": `[A-Z0-9]{7}[A-Z]|[A-Z0-9]{7}[A-W][A-I]`,
-	"IT": `[0-9]{11}`,
-	"LT": `([0-9]{9}|[0-9]{12})`,
-	"LU": `[0-9]{8}`,
-	"LV": `[0-9]{11}`,
-	"MT": `[0-9]{8}`,
-	"NL": `[0-9]{9}B[0-9]{2}`,
-	"PL": `[0-9]{10}`,
-	"PT": `[0-9]{9}`,
-	"RO": `[0-9]{2,10}`,
-	"SE": `[0-9]{12}`,
-	"SI": `[0-9]{8}`,
-	"SK": `[0-9]{10}`,
-	"XI": `([0-9]{9}|[0-9]{12})`, // Northern Ireland, same format as GB
+	"GB": regexp.MustCompile(`([0-9]{9}|[0-9]{12})`),
+	"HR": regexp.MustCompile(`[0-9]{11}`),
+	"HU": regexp.MustCompile(`[0-9]{8}`),
+	"IE": regexp.MustCompile(`[A-Z0-9]{7}[A-Z]|[A-Z0-9]{7}[A-W][A-I]`),
+	"IT": regexp.MustCompile(`[0-9]{11}`),
+	"LT": regexp.MustCompile(`([0-9]{9}|[0-9]{12})`),
+	"LU": regexp.MustCompile(`[0-9]{8}`),
+	"LV": regexp.MustCompile(`[0-9]{11}`),
+	"MT": regexp.MustCompile(`[0-9]{8}`),
+	"NL": regexp.MustCompile(`[0-9]{9}B[0-9]{2}`),
+	"PL": regexp.MustCompile(`[0-9]{10}`),
+	"PT": regexp.MustCompile(`[0-9]{9}`),
+	"RO": regexp.MustCompile(`[0-9]{2,10}`),
+	"SE": regexp.MustCompile(`[0-9]{12}`),
+	"SI": regexp.MustCompile(`[0-9]{8}`),
+	"SK": regexp.MustCompile(`[0-9]{10}`),
+	"XI": regexp.MustCompile(`([0-9]{9}|[0-9]{12})`), // Northern Ireland, same format as GB
 }
+
+const idNumberMinLength = 3
 
 type IDNumber struct {
 	CountryCode string
@@ -56,11 +61,12 @@ func MustParse(s string) IDNumber {
 	if err != nil {
 		panic(err)
 	}
+
 	return id
 }
 
 func Parse(s string) (IDNumber, error) {
-	if len(s) < 3 {
+	if len(s) < idNumberMinLength {
 		return IDNumber{}, ErrInvalidFormat
 	}
 
@@ -75,11 +81,7 @@ func Parse(s string) (IDNumber, error) {
 		return IDNumber{}, ErrInvalidCountryCode
 	}
 
-	matched, err := regexp.MatchString(fmt.Sprintf("^%s$", pattern), num.Number)
-	if err != nil {
-		return IDNumber{}, err
-	}
-	if !matched {
+	if !pattern.MatchString(num.Number) {
 		return IDNumber{}, ErrInvalidFormat
 	}
 

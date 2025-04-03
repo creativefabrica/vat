@@ -77,8 +77,14 @@ func (c *Client) Authenticate(ctx context.Context) error {
 	data.Set("grant_type", "client_credentials")
 	data.Set("scope", "read:vat")
 
-	url := fmt.Sprintf("%s/oauth/token", c.baseURL)
-	req, err := http.NewRequestWithContext(ctx, http.MethodPost, url, bytes.NewBufferString(data.Encode()))
+	url := c.baseURL + "/oauth/token"
+
+	req, err := http.NewRequestWithContext(
+		ctx,
+		http.MethodPost,
+		url,
+		bytes.NewBufferString(data.Encode()),
+	)
 	if err != nil {
 		return err
 	}
@@ -98,6 +104,7 @@ func (c *Client) Authenticate(ctx context.Context) error {
 		}
 
 		var errRes errorRes
+
 		err = json.NewDecoder(res.Body).Decode(&errRes)
 		if err != nil {
 			errRes.Description = "Failed to decode error response"
@@ -110,6 +117,7 @@ func (c *Client) Authenticate(ctx context.Context) error {
 	}
 
 	var token authToken
+
 	err = json.NewDecoder(res.Body).Decode(&token)
 	if err != nil {
 		return errors.Join(
@@ -143,11 +151,13 @@ func (c *Client) Validate(ctx context.Context, id vat.IDNumber) error {
 	c.mutex.Unlock()
 
 	url := fmt.Sprintf("%s/organisations/vat/check-vat-number/lookup/%s", c.baseURL, id.Number)
+
 	req, err := http.NewRequestWithContext(ctx, http.MethodGet, url, nil)
 	if err != nil {
 		return errors.Join(vat.ErrServiceUnavailable, err)
 	}
-	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", token))
+
+	req.Header.Set("Authorization", "Bearer "+token)
 	req.Header.Set("Accept", "application/vnd.hmrc.2.0+json")
 
 	res, err := c.httpClient.Do(req)
@@ -160,7 +170,7 @@ func (c *Client) Validate(ctx context.Context, id vat.IDNumber) error {
 	case http.StatusUnauthorized:
 		return errors.Join(
 			vat.ErrServiceUnavailable,
-			fmt.Errorf("unauthorized request to UK VAT API"),
+			errors.New("unauthorized request to UK VAT API"),
 		)
 	case http.StatusBadRequest:
 		return vat.ErrInvalidFormat
