@@ -49,8 +49,8 @@ You can pass the clients implemented on the `vies` and `ukvat` packages as funct
 
 ```go
 validator := vat.NewValidator(
-    vat.WithViesService(vies.NewClient()),
-    vat.WithUKVATService(ukvat.NewClient(
+    vat.WithViesClient(vies.NewClient()),
+    vat.WithUKVATClient(ukvat.NewClient(
         ukvat.ClientCredentials{
             Secret: os.Getenv("UKVAT_API_CLIENT_SECRET"),
             ID:     os.Getenv("UKVAT_API_CLIENT_ID"),
