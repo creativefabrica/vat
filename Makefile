@@ -11,8 +11,11 @@ test.coverage.check: test.coverage
 test.coverage.treemap: test.coverage
 	go tool go-cover-treemap -coverprofile coverage/cover.out > coverage.svg
 	
-gen:
+gen: gen.mocks
 	go generate ./...
+
+gen.mocks:
+	go tool mockery
 
 lint.go:
 	go tool golangci-lint run --fix
@@ -26,4 +29,4 @@ run.example:
 deps.macos:
 	brew bundle install
 
-.PRECIOUS: .env.test 
+.PRECIOUS: .env.test mak

@@ -1,9 +1,9 @@
 all: false
+filename: 'mock_{{ .InterfaceName | snakecase }}.gen.go'
 packages:
   github.com/creativefabrica/vat:
     config:
-        dir: "vattest/"
-        filename: "mock_validation_client.gen.go"
-        pkgname: "vattest"
+      dir: "vattest/"
+      pkgname: "vattest"
     interfaces:
-        ValidationClient:
+      ValidationClient:
