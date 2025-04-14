@@ -1,0 +1,9 @@
+all: false
+packages:
+  github.com/creativefabrica/vat:
+    config:
+        dir: "vattest/"
+        filename: "mock_validation_client.gen.go"
+        pkgname: "vattest"
+    interfaces:
+        ValidationClient:
