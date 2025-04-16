@@ -4,14 +4,13 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"go.uber.org/mock/gomock"
 
 	"github.com/creativefabrica/vat"
 	"github.com/creativefabrica/vat/vattest"
 )
 
 func TestValidator_Validate(t *testing.T) {
-	validationClientMock := vattest.NewMockValidationClient(gomock.NewController(t))
+	validationClientMock := vattest.NewMockValidationClient(t)
 	validator := vat.NewValidator(
 		vat.WithUKVATClient(validationClientMock),
 		vat.WithViesClient(validationClientMock),
