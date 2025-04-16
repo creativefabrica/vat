@@ -29,6 +29,7 @@ func main() {
 	validator := vat.NewValidator(
 		vat.WithViesClient(vies.NewClient(
 			vies.WithHTTPClient(httpClient),
+			vies.WithRetries(3),
 		)),
 		vat.WithUKVATClient(ukvat.NewClient(
 			ukvat.ClientCredentials{
@@ -40,13 +41,21 @@ func main() {
 		)),
 	)
 
-	err = validator.Validate(context.Background(), "GB146295999727")
-	if err != nil {
-		logger.Error("Invalid VAT number", "error", err)
-		os.Exit(1)
-
-		return
+	vats := []string{
+		"GB146295999727",
+		"NL822010690B01",
+		"NL822010690B02",
+		"GB123456789",
 	}
 
-	logger.Info("VAT number is valid", "vat_number", "GB146295999727")
+	for _, vatNumber := range vats {
+		err = validator.Validate(context.Background(), vatNumber)
+		if err != nil {
+			logger.Error("VAT number is invalid", "error", err, "vat_number", vatNumber)
+
+			continue
+		}
+
+		logger.Info("VAT number is valid", "vat_number", vatNumber)
+	}
 }
