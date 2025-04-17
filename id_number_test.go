@@ -19,6 +19,22 @@ func TestParse(t *testing.T) {
 		wantErr error
 	}{
 		{
+			name: "invalid ID number (empty string)",
+			args: args{
+				s: "    ",
+			},
+			want:    vat.IDNumber{},
+			wantErr: vat.ErrInvalidFormat,
+		},
+		{
+			name: "invalid ID number (too short)",
+			args: args{
+				s: "NL",
+			},
+			want:    vat.IDNumber{},
+			wantErr: vat.ErrInvalidFormat,
+		},
+		{
 			name: "valid AU Tax ID number",
 			args: args{
 				s: "AU51824753556",

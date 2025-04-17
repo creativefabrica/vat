@@ -68,11 +68,13 @@ func MustParse(s string) IDNumber {
 }
 
 func Parse(s string) (IDNumber, error) {
+	s = strings.ReplaceAll(s, " ", "")
+
 	if len(s) < idNumberMinLength {
 		return IDNumber{}, ErrInvalidFormat
 	}
 
-	s = strings.ToUpper(strings.ReplaceAll(s, " ", ""))
+	s = strings.ToUpper(s)
 	num := IDNumber{
 		CountryCode: s[:2],
 		Number:      s[2:],
