@@ -76,12 +76,14 @@ httpClient := &http.Client{}
 client := vies.NewClient(
     // Use this option to provide a custom http client
     vies.WithHTTPClient(httpClient),
+    // Use this option to enable retries in case of rate limiting from the VIES API
+    vies.WithRetries(3),
 )
 ```
 
 ### Package usage: ukvat
 
-> [!IMPORTANT]  
+> [!IMPORTANT]
 > For validating VAT numbers that begin with **GB** you will need to [sign up](https://developer.service.hmrc.gov.uk/api-documentation/docs/using-the-hub) to gain access to the UK government's VAT API.
 > Once you have signed up and acquired a client ID and client secret you can provide them on the intitalizer
 
@@ -97,7 +99,7 @@ client := ukvat.NewClient(
 )
 ```
 
-> [!NOTE]  
+> [!NOTE]
 > The `ukvat.Client` struct will cache the auth token needed for the validation requests.
 > To avoid getting `403` responses when validating VAT numbers, the client will refresh the token 2 minutes before it expires
 
@@ -105,6 +107,20 @@ If you need to hit the sandbox version of the UK VAT API you can use the followi
 
 ```go
 ukvat.WithBaseURL(ukvat.TestServiceBaseURL)
+```
+
+### Package usage: abn
+
+> [!IMPORTANT]
+> For validating Australian VAT numbers (or ABNs) that begin with **AU** you will need to [register](https://abr.business.gov.au/Tools/WebServicesRegister?AcceptLicenceTerms=Y) for an authentication GUID.
+
+```go
+httpClient := &http.Client{}
+client := abn.NewClient(
+    os.Getenv("ABN_API_AUTH_GUID"),
+    // Use this option to provide a custom http client
+    abn.WithHTTPClient(httpClient),
+)
 ```
 
 ### Package usage: vattest

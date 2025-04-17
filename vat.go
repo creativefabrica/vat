@@ -7,19 +7,26 @@ import (
 type Validator struct {
 	viesClient  ValidationClient
 	ukVATClient ValidationClient
+	abnClient   ValidationClient
 }
 
 type ValidatorOption func(*Validator)
 
-func WithViesClient(viesService ValidationClient) ValidatorOption {
+func WithViesClient(client ValidationClient) ValidatorOption {
 	return func(v *Validator) {
-		v.viesClient = viesService
+		v.viesClient = client
 	}
 }
 
-func WithUKVATClient(ukVATService ValidationClient) ValidatorOption {
+func WithUKVATClient(client ValidationClient) ValidatorOption {
 	return func(v *Validator) {
-		v.ukVATClient = ukVATService
+		v.ukVATClient = client
+	}
+}
+
+func WithANBClient(client ValidationClient) ValidatorOption {
+	return func(v *Validator) {
+		v.abnClient = client
 	}
 }
 
@@ -40,6 +47,12 @@ func (v *Validator) Validate(ctx context.Context, vatNumber string) error {
 	}
 
 	switch id.CountryCode {
+	case "AU":
+		if v.abnClient == nil {
+			return nil
+		}
+
+		return v.abnClient.Validate(ctx, id)
 	case "GB":
 		if v.ukVATClient == nil {
 			return nil

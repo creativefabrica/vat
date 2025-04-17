@@ -7,6 +7,7 @@ import (
 	"os"
 
 	"github.com/creativefabrica/vat"
+	"github.com/creativefabrica/vat/abn"
 	"github.com/creativefabrica/vat/ukvat"
 	"github.com/creativefabrica/vat/vies"
 )
@@ -27,18 +28,28 @@ func main() {
 
 	httpClient := &http.Client{}
 	validator := vat.NewValidator(
-		vat.WithViesClient(vies.NewClient(
-			vies.WithHTTPClient(httpClient),
-			vies.WithRetries(3),
-		)),
-		vat.WithUKVATClient(ukvat.NewClient(
-			ukvat.ClientCredentials{
-				Secret: os.Getenv("UKVAT_API_CLIENT_SECRET"),
-				ID:     os.Getenv("UKVAT_API_CLIENT_ID"),
-			},
-			ukvat.WithBaseURL(ukvat.TestServiceBaseURL),
-			ukvat.WithHTTPClient(httpClient),
-		)),
+		vat.WithViesClient(
+			vies.NewClient(
+				vies.WithHTTPClient(httpClient),
+				vies.WithRetries(3),
+			),
+		),
+		vat.WithUKVATClient(
+			ukvat.NewClient(
+				ukvat.ClientCredentials{
+					Secret: os.Getenv("UKVAT_API_CLIENT_SECRET"),
+					ID:     os.Getenv("UKVAT_API_CLIENT_ID"),
+				},
+				ukvat.WithBaseURL(ukvat.TestServiceBaseURL),
+				ukvat.WithHTTPClient(httpClient),
+			),
+		),
+		vat.WithANBClient(
+			abn.NewClient(
+				os.Getenv("ABN_API_AUTH_GUID"),
+				abn.WithHTTPClient(httpClient),
+			),
+		),
 	)
 
 	vats := []string{
@@ -46,6 +57,8 @@ func main() {
 		"NL822010690B01",
 		"NL822010690B02",
 		"GB123456789",
+		"AU51824753556",
+		"AU41824753556",
 	}
 
 	for _, vatNumber := range vats {
